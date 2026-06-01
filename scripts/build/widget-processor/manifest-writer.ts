@@ -1,0 +1,47 @@
+/**
+ * Creates and writes widget manifest files. Owns manifest serialization and storage.
+ */
+import type {WidgetManifest} from "../types.ts";
+import {CONFIG} from "../../config.ts";
+import {Report} from "../report.ts";
+import fs from 'fs';
+import path from 'path';
+
+export function writeManifest(
+    manifest: WidgetManifest,
+    name: string,
+    report: Report
+): string {
+
+    report.info(
+        'Writing widget manifest',
+        {
+            widget: name
+        }
+    );
+
+    const filePath = path.join(
+        CONFIG.widgetsDir,
+        'contracts',
+        `${name}.json`
+    );
+
+    fs.writeFileSync(
+        filePath,
+        JSON.stringify(
+            manifest,
+            null,
+            2
+        )
+    );
+
+    report.success(
+        'Widget manifest written',
+        {
+            widget: name,
+            path: filePath
+        }
+    );
+
+    return filePath;
+}
