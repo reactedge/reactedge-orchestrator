@@ -5,8 +5,6 @@
 import type { WidgetRegistry } from '../types.ts';
 import fs from "fs";
 import {RegistrySchema} from "./schema.ts";
-import path from "path";
-import {CONFIG} from "../../config.ts";
 import {getManifestPath} from "../paths.ts";
 
 export function loadRegistry(): WidgetRegistry {

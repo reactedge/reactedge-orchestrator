@@ -39,3 +39,14 @@ export interface WidgetManifest {
     contract?: unknown;
     contractFile?: string | null;
 }
+
+export interface Config {
+    widgetsDir: string;
+    widgetsUrl: string;
+    cndUrl: string;
+    cndLiveUrl: string;
+    widgetsLiveUrl: string;
+    projectRoot: string;
+    localUrl: string;
+    remoteUrl: string;
+}

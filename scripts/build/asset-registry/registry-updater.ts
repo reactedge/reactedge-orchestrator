@@ -1,8 +1,9 @@
 import path from "path";
 import {readFileSync} from "fs";
-import {CONFIG} from "../../config.ts";
+import {getConfig} from "../../config.ts";
 
 export function updateRegistry({ widgetName, buildTarget, registryPath, widgetAssetsDir, updateIntegrity }) {
+    const CONFIG = getConfig()
     const cdnUrl = CONFIG.cndUrl
     let cssBundle= null
 
