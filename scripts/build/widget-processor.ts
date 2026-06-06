@@ -4,7 +4,7 @@
 import type {ProcessedWidget, WidgetRegistry} from "./types.ts";
 import {resolveWidgetEntry} from "./rebuild-registry/registry-loader.ts";
 import {buildWidget} from "./widget-processor/build-widget.ts";
-import {Report, ReportScope} from "./report.ts";
+import {Report} from "./report.ts";
 import {updateAssetRegistry} from "./widget-processor/asset-registry.ts";
 import {loadContract} from "./widget-processor/contract-loader.ts";
 import {loadSsrCss} from "./widget-processor/ssr-css-loadeer.ts";
