@@ -27,7 +27,7 @@ export function updateAssetRegistry(
         }
     );
 
-    const registryPath = getManifestPath('widgets-dev.json');
+    const registryPath = getManifestPath();
     const widgetAssetsDir = getWidgetAssetsPath(widgetName);
 
     const result = updateRegistry({

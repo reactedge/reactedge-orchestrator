@@ -3,78 +3,60 @@
  */
 
 import {Report} from "./report.ts";
-import {loadRegistry, resolveWidgets} from './rebuild-registry/registry-loader.ts';
+import {resolveWidgets} from './rebuild-registry/registry-loader.ts';
 import { processWidget } from './widget-processor.ts';
 import { writeIndex } from './rebuild-registry/index-writer.ts';
-import {setupTelemetry} from "./observability/tracing.ts";
-import {ConsoleObserver} from "./observability/observers/console-observer.ts";
-import {OpenTelemetryObserver} from "./observability/observers/otel-observer.ts";
+import type {WidgetRegistry} from "./types.ts";
 
-const report = new Report();
-setupTelemetry();
-report.addObserver(
-    new ConsoleObserver()
-);
+export async function rebuildRegistry(
+    selectedWidgets: string[],
+    registry: WidgetRegistry,
+    report: Report
+) {
+    const widgets =
+        resolveWidgets(
+            selectedWidgets,
+            registry
+        );
 
-report.addObserver(
-    new OpenTelemetryObserver('registry-rebuild')
-);
-
-const registry =
-    loadRegistry(
-        'widgets-dev.json'
+    report.info(
+        'Widget selection resolved',
+        {
+            widgets: widgets.length
+        }
     );
 
-report.info(
-    'Registry loaded',
-    {
-        widgets: Object.keys(registry).length
+    const processedWidgets = [];
+
+    for (const widget of widgets) {
+        processedWidgets.push(
+            processWidget(
+                widget,
+                registry,
+                report
+            )
+        );
     }
-);
 
-const widgets =
-    resolveWidgets(
-        process.argv[2] ?? 'all',
-        registry
+    report.success(
+        'Widget processing completed',
+        {
+            widgets: processedWidgets.length
+        }
     );
 
-report.info(
-    'Widget selection resolved',
-    {
-        widgets: widgets.length
-    }
-);
-
-const processedWidgets = [];
-
-for (const widget of widgets) {
-    processedWidgets.push(
-        processWidget(
-            widget,
-            registry,
-            report
-        )
+    writeIndex(
+        processedWidgets,
+        report
     );
+
+    report.success(
+        'Registry rebuild completed'
+    );
+
+    report.renderConsole()
+    report.publishSummary();
 }
-
-report.success(
-    'Widget processing completed',
-    {
-        widgets: processedWidgets.length
-    }
-);
-
-writeIndex(
-    processedWidgets,
-    report
-);
-
-report.success(
-    'Registry rebuild completed'
-);
-
-report.renderConsole()
-report.publishSummary();
 
 await new Promise(
     resolve => setTimeout(resolve, 5000)

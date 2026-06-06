@@ -5,9 +5,8 @@ import fs from "fs";
 import path from "path";
 import {execSync} from "child_process";
 import {Report} from "../report.ts";
-import type {AssetRegistryResult} from "../types.ts";
 import {getContractPath, getWidgetPath} from "../paths.ts";
-import {getFilename} from "../util.ts";
+import {replaceEnvironmentUrls} from "../util.ts";
 
 export function generateSsr(
     widgetName: string,
@@ -53,5 +52,5 @@ export function generateSsr(
         }
     );
 
-    return result;
+    return replaceEnvironmentUrls(result);
 }

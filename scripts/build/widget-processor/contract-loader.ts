@@ -5,7 +5,7 @@ import type {ContractResult} from "../types.ts";
 import fs from "fs";
 import {getContractPath} from "../paths.ts";
 import {Report} from "../report.ts";
-import {getFilename} from "../util.ts";
+import {getFilename, replaceEnvironmentUrls} from "../util.ts";
 
 export function loadContract(
     widgetName: string,
@@ -18,7 +18,10 @@ export function loadContract(
     const localPath = getContractPath(widgetName, contractFile)
 
     if (fs.existsSync(localPath)) {
-        contract = JSON.parse(fs.readFileSync(localPath, 'utf-8'));
+        const content = fs.readFileSync(localPath, 'utf-8');
+        contract = JSON.parse(
+            replaceEnvironmentUrls(content)
+        );
         report.info(
             '✔ Loaded local contract',
             {

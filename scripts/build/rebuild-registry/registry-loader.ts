@@ -7,15 +7,10 @@ import fs from "fs";
 import {RegistrySchema} from "./schema.ts";
 import path from "path";
 import {CONFIG} from "../../config.ts";
+import {getManifestPath} from "../paths.ts";
 
-export function loadRegistry(
-    registryName: string
-): WidgetRegistry {
-    const registryPath = path.join(
-        CONFIG.widgetsDir,
-        'manifests',
-        registryName
-    );
+export function loadRegistry(): WidgetRegistry {
+    const registryPath = getManifestPath();
 
     const rawRegistry = JSON.parse(
         fs.readFileSync(registryPath, 'utf-8')
@@ -25,18 +20,9 @@ export function loadRegistry(
 }
 
 export function resolveWidgets(
-    arg: string,
+    selected: string[],
     registry: WidgetRegistry
 ): string[] {
-
-    const selected =
-        arg === 'all'
-            ? Object.keys(registry)
-            : arg
-                .split(',')
-                .map(w => w.trim())
-                .filter(Boolean);
-
     const expanded = new Set<string>();
 
     for (const widget of selected) {

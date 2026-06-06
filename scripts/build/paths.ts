@@ -7,10 +7,33 @@ import { fileURLToPath } from 'url';
 import {CONFIG} from "../config.ts";
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export function getRoot(): string {
-    const root = process.env.REACTEDGE_ROOT;
+    const root = CONFIG.projectRoot;
+
+    if (!root) {
+        throw new Error(
+            'Missing REACTEDGE_ROOT environment variable'
+        );
+    }
+
+    return root;
+}
+
+export function getLocalUrl(): string {
+    const root = CONFIG.projectRoot;
+
+    if (!root) {
+        throw new Error(
+            'Missing REACTEDGE_ROOT environment variable'
+        );
+    }
+
+    return root;
+}
+
+export function getRemoveUrl(): string {
+    const root = CONFIG.projectRoot;
 
     if (!root) {
         throw new Error(
@@ -56,12 +79,10 @@ export function getContractPath(
     );
 }
 
-export function getManifestPath(
-    manifestName: string
-): string {
+export function getManifestPath(): string {
     return path.join(
         CONFIG.widgetsDir,
         'manifests',
-        manifestName
+        'widgets.json'
     );
 }
