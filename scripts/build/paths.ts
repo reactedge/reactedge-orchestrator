@@ -4,11 +4,12 @@
 
 import path from 'path';
 import { fileURLToPath } from 'url';
-import {CONFIG} from "../config.ts";
+import {getConfig} from "../config.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 
 export function getRoot(): string {
+    const CONFIG = getConfig()
     const root = CONFIG.projectRoot;
 
     if (!root) {
@@ -21,6 +22,7 @@ export function getRoot(): string {
 }
 
 export function getLocalUrl(): string {
+    const CONFIG = getConfig()
     const root = CONFIG.projectRoot;
 
     if (!root) {
@@ -33,6 +35,7 @@ export function getLocalUrl(): string {
 }
 
 export function getRemoveUrl(): string {
+    const CONFIG = getConfig()
     const root = CONFIG.projectRoot;
 
     if (!root) {
@@ -80,6 +83,7 @@ export function getContractPath(
 }
 
 export function getManifestPath(): string {
+    const CONFIG = getConfig()
     return path.join(
         CONFIG.widgetsDir,
         'manifests',

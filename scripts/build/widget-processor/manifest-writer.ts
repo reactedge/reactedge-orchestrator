@@ -2,16 +2,17 @@
  * Creates and writes widget manifest files. Owns manifest serialization and storage.
  */
 import type {WidgetManifest} from "../types.ts";
-import {CONFIG} from "../../config.ts";
 import {Report} from "../report.ts";
 import fs from 'fs';
 import path from 'path';
+import {getConfig} from "../../config.ts";
 
 export function writeManifest(
     manifest: WidgetManifest,
     name: string,
     report: Report
 ): string {
+    const CONFIG = getConfig()
 
     report.info(
         'Writing widget manifest',

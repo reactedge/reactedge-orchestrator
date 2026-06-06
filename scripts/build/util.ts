@@ -1,6 +1,6 @@
 // util.ts
 import fs from "fs";
-import {CONFIG} from "../config.ts";
+import {getConfig} from "../config.ts";
 
 export function getFilename(
     value: string
@@ -13,6 +13,8 @@ export function getFilename(
 export function replaceEnvironmentUrls(
     content: string
 ): string {
+    const CONFIG = getConfig()
+
     return CONFIG.remoteUrl
         ? content.replaceAll(
             CONFIG.localUrl,

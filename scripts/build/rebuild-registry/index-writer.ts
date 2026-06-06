@@ -2,17 +2,17 @@
  * Creates and writes index.json. Owns index generation only.
  */
 import type {ProcessedWidget} from "../types.ts";
-import {CONFIG} from "../../config.ts";
 import fs from "fs";
 import path from "path";
 import {Report} from "../report.ts";
 import {getFilename} from "../util.ts";
+import {getConfig} from "../../config.ts";
 
 export function writeIndex(
     widgets: ProcessedWidget[],
     report: Report
 ): void {
-
+    const CONFIG = getConfig()
     report.info(
         'Writing manifest index',
         {
