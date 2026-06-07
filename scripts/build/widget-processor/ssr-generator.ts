@@ -7,12 +7,14 @@ import {execSync} from "child_process";
 import {Report} from "../report.ts";
 import {getContractPath, getWidgetPath} from "../paths.ts";
 import {replaceEnvironmentUrls} from "../util.ts";
+import {exec} from "node:child_process";
 
-export function generateSsr(
+export async function generateSsr(
     widgetName: string,
     contractFile: string,
     report: Report
-): string | null {
+): Promise<string | null> {
+
     const widgetPath =
         getWidgetPath(widgetName);
 
@@ -37,20 +39,35 @@ export function generateSsr(
         return null;
     }
 
-    const result = execSync(
-        `NODE_TLS_REJECT_UNAUTHORIZED=0 npx tsx scripts/render-page.ts "${contractPath}"`,
-        {
-            cwd: widgetPath,
-            encoding: 'utf8'
+    return new Promise(
+        (resolve, reject) => {
+            exec(
+                `NODE_TLS_REJECT_UNAUTHORIZED=0 npx tsx scripts/render-page.ts "${contractPath}"`,
+                {
+                    cwd: widgetPath,
+                    encoding: 'utf8'
+                },
+                (error, stdout) => {
+
+                    if (error) {
+                        reject(error);
+                        return;
+                    }
+
+                    report.success(
+                        'SSR generated',
+                        {
+                            widget: widgetName
+                        }
+                    );
+
+                    resolve(
+                        replaceEnvironmentUrls(
+                            stdout
+                        )
+                    );
+                }
+            );
         }
     );
-
-    report.success(
-        'SSR generated',
-        {
-            widget: widgetName
-        }
-    );
-
-    return replaceEnvironmentUrls(result);
 }

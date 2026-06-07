@@ -13,11 +13,11 @@ import {writeManifest} from "./widget-processor/manifest-writer.ts";
 import {getWidgetPath} from "./paths.ts";
 import {getFilename} from "./util.ts";
 
-export function processWidget(
+export async function processWidget(
     name: string,
     registry: WidgetRegistry,
     report: Report
-): ProcessedWidget {
+): Promise<ProcessedWidget> {
     let manifestResult: string | null = null;
 
     const resolved =
@@ -63,7 +63,7 @@ export function processWidget(
         const contractFile = getFilename(registryResult.cdn)
 
         const cssSsr = loadSsrCss(widgetName, registryResult.cssFilename)
-        const ssrResult = generateSsr(widgetName, contractFile, report);
+        const ssrResult = await generateSsr(widgetName, contractFile, report);
 
         const manifest = {
             id: name,
