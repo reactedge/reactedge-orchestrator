@@ -6,6 +6,7 @@ import path from "path";
 import {Report} from "../report.ts";
 import {getContractPath, getWidgetPath} from "../paths.ts";
 import {exec} from "node:child_process";
+import {resolveContractTags} from "../contract-loader/wrapper.ts";
 
 export async function generateSsr(
     widgetName: string,
@@ -60,7 +61,7 @@ export async function generateSsr(
                     );
 
                     resolve(
-                        stdout
+                        resolveContractTags(stdout)
                     );
                 }
             );
