@@ -3,10 +3,8 @@
  */
 import fs from "fs";
 import path from "path";
-import {execSync} from "child_process";
 import {Report} from "../report.ts";
 import {getContractPath, getWidgetPath} from "../paths.ts";
-import {replaceEnvironmentUrls} from "../util.ts";
 import {exec} from "node:child_process";
 
 export async function generateSsr(
@@ -62,9 +60,7 @@ export async function generateSsr(
                     );
 
                     resolve(
-                        replaceEnvironmentUrls(
-                            stdout
-                        )
+                        stdout
                     );
                 }
             );

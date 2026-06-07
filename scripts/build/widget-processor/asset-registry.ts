@@ -5,13 +5,7 @@
 import {Report} from "../report.ts";
 import {updateRegistry} from "../asset-registry/registry-updater.ts";
 import {getManifestPath, getWidgetAssetsPath} from "../paths.ts";
-
-export interface AssetRegistryResult {
-    src: string;
-    cdn?: string;
-    cssBundle?: string;
-    cssFilename?: string;
-}
+import type {AssetRegistryResult} from "../types.ts";
 
 export function updateAssetRegistry(
     widgetName: string,

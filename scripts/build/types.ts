@@ -15,6 +15,15 @@ export interface ProcessedWidget {
     manifestFile: string;
 }
 
+export type ContractData = Record<string, unknown>;
+
+export interface ContractWrapper {
+    _meta?: {
+        site: string;
+    };
+    data: ContractData;
+}
+
 export interface AssetRegistryResult {
     src: string;
     cdn?: string;
@@ -42,11 +51,8 @@ export interface WidgetManifest {
 
 export interface Config {
     widgetsDir: string;
-    widgetsUrl: string;
-    cndUrl: string;
-    cndLiveUrl: string;
-    widgetsLiveUrl: string;
+    cdnUrl: string;
     projectRoot: string;
-    localUrl: string;
-    remoteUrl: string;
+    targetSite: string,
+    allowedHosts: string[]
 }
