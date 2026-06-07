@@ -26,17 +26,16 @@ export async function rebuildRegistry(
         }
     );
 
-    const processedWidgets = [];
-
-    for (const widget of widgets) {
-        processedWidgets.push(
-            processWidget(
-                widget,
-                registry,
-                report
+    const processedWidgets =
+        await Promise.all(
+            widgets.map(widget =>
+                processWidget(
+                    widget,
+                    registry,
+                    report
+                )
             )
         );
-    }
 
     report.success(
         'Widget processing completed',

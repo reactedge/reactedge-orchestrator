@@ -9,7 +9,7 @@ import {getFilename, replaceEnvironmentUrls} from "../util.ts";
 
 export function loadContract(
     widgetName: string,
-    cdn?: string,
+    cdn: string,
     report: Report
 ): ContractResult {
     let contract = null;
