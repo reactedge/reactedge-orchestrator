@@ -1,11 +1,13 @@
 /**
  * Resolves and loads widget contracts from disk. Returns contract metadata and parsed content.
  */
-import type {ContractResult} from "../types.ts";
+import type {ContractResult, ContractWrapper} from "../types.ts";
 import fs from "fs";
 import {getContractPath} from "../paths.ts";
 import {Report} from "../report.ts";
-import {getFilename, replaceEnvironmentUrls} from "../util.ts";
+import {getFilename} from "../util.ts";
+import {validateContract} from "../contract-loader/validator.ts";
+import {wrapContract} from "../contract-loader/wrapper.ts";
 
 export function loadContract(
     widgetName: string,
@@ -19,8 +21,12 @@ export function loadContract(
 
     if (fs.existsSync(localPath)) {
         const content = fs.readFileSync(localPath, 'utf-8');
-        contract = JSON.parse(
-            replaceEnvironmentUrls(content)
+        contract = JSON.parse(content) as ContractWrapper
+        contract = wrapContract(contract)
+
+        validateContract(
+            contract,
+            cdn
         );
         report.info(
             '✔ Loaded local contract',

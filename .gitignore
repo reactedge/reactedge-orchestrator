@@ -3,3 +3,4 @@ node_modules
 *.swp
 .env*
 README-dev.mdtemp
+temp

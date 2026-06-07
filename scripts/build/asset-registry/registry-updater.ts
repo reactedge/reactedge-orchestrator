@@ -4,7 +4,7 @@ import {getConfig} from "../../config.ts";
 
 export function updateRegistry({ widgetName, buildTarget, registryPath, widgetAssetsDir, updateIntegrity }) {
     const CONFIG = getConfig()
-    const cdnUrl = CONFIG.cndUrl
+    const cdnUrl = CONFIG.cdnUrl
     let cssBundle= null
 
     const manifestPath = path.join(widgetAssetsDir, `widget-${buildTarget}.manifest.json`);

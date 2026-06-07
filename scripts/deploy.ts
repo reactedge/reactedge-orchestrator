@@ -13,13 +13,13 @@ loadConfig(target);
 
 const report = new Report();
 setupTelemetry();
-// report.addObserver(
-//     new ConsoleObserver()
-// );
+report.addObserver(
+    new ConsoleObserver()
+);
 
-// report.addObserver(
-//     new OpenTelemetryObserver('registry-rebuild')
-// );
+report.addObserver(
+    new OpenTelemetryObserver('registry-rebuild')
+);
 
 const registry =
     loadRegistry();

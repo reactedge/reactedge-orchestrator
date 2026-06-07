@@ -21,32 +21,6 @@ export function getRoot(): string {
     return root;
 }
 
-export function getLocalUrl(): string {
-    const CONFIG = getConfig()
-    const root = CONFIG.projectRoot;
-
-    if (!root) {
-        throw new Error(
-            'Missing REACTEDGE_ROOT environment variable'
-        );
-    }
-
-    return root;
-}
-
-export function getRemoveUrl(): string {
-    const CONFIG = getConfig()
-    const root = CONFIG.projectRoot;
-
-    if (!root) {
-        throw new Error(
-            'Missing REACTEDGE_ROOT environment variable'
-        );
-    }
-
-    return root;
-}
-
 export function getWidgetPath(
     widgetName: string
 ): string {

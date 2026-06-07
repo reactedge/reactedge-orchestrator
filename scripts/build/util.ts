@@ -1,5 +1,4 @@
 // util.ts
-import fs from "fs";
 import {getConfig} from "../config.ts";
 
 export function getFilename(
@@ -10,15 +9,21 @@ export function getFilename(
     );
 }
 
-export function replaceEnvironmentUrls(
-    content: string
-): string {
+export function validateUrl(
+    url: string
+): void {
     const CONFIG = getConfig()
 
-    return CONFIG.remoteUrl
-        ? content.replaceAll(
-            CONFIG.localUrl,
-            CONFIG.remoteUrl
+    const hostname =
+        new URL(url).hostname;
+
+    if (
+        !CONFIG.allowedHosts.includes(
+            hostname
         )
-        : content;
+    ) {
+        throw new Error(
+            `Host "${hostname}" is not allowed`
+        );
+    }
 }
